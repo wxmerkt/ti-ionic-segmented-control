@@ -9,7 +9,7 @@ angular.module('ti-segmented-control', []
         },
         template: '<div class=\"buttons\"><div class=\"button-bar bar-light ti-segmented-control\" ng-transclude></div></div>',
 
-        controller: ['$scope', function($scope){
+        controller: function($scope){
             this.buttons = [];
             this.setSelectedButton = function (title) {
                 $scope.onSelect({$index: this.buttons.indexOf(title)});
@@ -17,23 +17,23 @@ angular.module('ti-segmented-control', []
             var style = window.document.createElement('style');
             style.type = 'text/css';
             style.innerHTML += '.button.button-outline.ti-segmented-control:first-child { border-top-left-radius: 5px;border-bottom-left-radius: 5px; }';
-            style.innerHTML += '.button.button-outline.ti-segmented-control { line-height: 23px;max-height: 25px;min-height: 25px; }';
+            style.innerHTML += '.button.button-outline.ti-segmented-control { line-height:1.2em;padding-top:5px;padding-bottom:5px;white-space:normal;/*max-height: 25px;*/min-height: 25px;font-size:0.9em;padding-left:8px;padding-right:8px }';
             style.innerHTML += '.button.button-outline.ti-segmented-control:last-child { border-top-right-radius: 5px; border-bottom-right-radius: 5px; }';
             style.innerHTML += '.button.button-outline.ti-segmented-control.activated { color: #fafafa;box-shadow: none; }';
+            //style.innerHTML += '.ti-segmented-control a { display:table-cell;vertical-align:middle;white-space:normal;word-wrap:break-word;overflow-wrap:break-word;height:100%;-moz-box-sizing: border-box;box-sizing: border-box;display: inline-block; }'
             window.document.getElementsByTagName('head')[0].appendChild(style);
-        }],
-        link: ['$scope', function (scope) {
-        }]
+        },
+        link: function (scope) {
+        }
     }
 }).directive('tiSegmentedControlButton', function () {
     return {
         replace: true,
-        transclude: true,
         require: '^tiSegmentedControl',
         scope: {
             title: '='
         },
-        template: '<a class=\"button button-outline ti-segmented-control\"><ng-transclude></ng-transclude></a>',
+        template: '<a class=\"button button-outline ti-segmented-control\">{{title}}</a>',
         link: function(scope, element, attr, segmentedControlCtrl){
             segmentedControlCtrl.buttons.push(scope.title);
             if(attr.selected != undefined) element.addClass('active');
